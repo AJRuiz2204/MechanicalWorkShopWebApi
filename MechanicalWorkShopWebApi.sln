@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalWorkShopWebApi", "MechanicalWorkShopWebApi\MechanicalWorkShopWebApi.csproj", "{FD900CFF-973A-46B6-B66F-169ABE793FFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalWorkShopWebApi.Infrastructure", "MechanicalWorkShopWebApi.Infrastructure\MechanicalWorkShopWebApi.Infrastructure.csproj", "{1663DFE0-FDD4-4B06-8559-45BF7C8058BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalWorkShopWebApi.Services", "MechanicalWorkShopWebApi.Services\MechanicalWorkShopWebApi.Services.csproj", "{28D324D3-AB7E-494D-835A-73A947DD20B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalWorkShopWebApi.Domain", "MechanicalWorkShopWebApi.Domain\MechanicalWorkShopWebApi.Domain.csproj", "{33C7FC5A-D8A6-4F81-99CE-82FD774BB643}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechanicalWorkShopWebApi.Api", "MechanicalWorkShopWebApi.Api\MechanicalWorkShopWebApi.Api.csproj", "{89BB5CF7-AC93-4226-BDCD-D13A9A3F558C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FD900CFF-973A-46B6-B66F-169ABE793FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD900CFF-973A-46B6-B66F-169ABE793FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD900CFF-973A-46B6-B66F-169ABE793FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD900CFF-973A-46B6-B66F-169ABE793FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1663DFE0-FDD4-4B06-8559-45BF7C8058BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1663DFE0-FDD4-4B06-8559-45BF7C8058BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1663DFE0-FDD4-4B06-8559-45BF7C8058BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1663DFE0-FDD4-4B06-8559-45BF7C8058BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D324D3-AB7E-494D-835A-73A947DD20B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D324D3-AB7E-494D-835A-73A947DD20B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D324D3-AB7E-494D-835A-73A947DD20B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D324D3-AB7E-494D-835A-73A947DD20B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33C7FC5A-D8A6-4F81-99CE-82FD774BB643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33C7FC5A-D8A6-4F81-99CE-82FD774BB643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33C7FC5A-D8A6-4F81-99CE-82FD774BB643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33C7FC5A-D8A6-4F81-99CE-82FD774BB643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89BB5CF7-AC93-4226-BDCD-D13A9A3F558C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89BB5CF7-AC93-4226-BDCD-D13A9A3F558C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89BB5CF7-AC93-4226-BDCD-D13A9A3F558C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89BB5CF7-AC93-4226-BDCD-D13A9A3F558C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
