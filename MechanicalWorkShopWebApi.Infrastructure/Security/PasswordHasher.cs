@@ -11,7 +11,7 @@ namespace MechanicalWorkShopWebApi.Infrastructure.Security
                 return false;
             if (storedPHash.Length != 64)
                 return false;
-            if (storedPSalt.Length != 120)
+            if (storedPSalt.Length != 72)
                 return false;
 
             using (var hmac = new HMACSHA3_512(storedPSalt))

@@ -16,7 +16,11 @@ namespace Mechanical_workshop.Services.Mappings
 
                 // Ignoramos PasswordHash porque lo generamos con criptografía en el Service
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
-                .ForMember(dest => dest.PasswordSalt, opt => opt.Ignore());
+                .ForMember(dest => dest.PasswordSalt, opt => opt.Ignore())
+                .ForMember(dest => dest.ID, opt => opt.Ignore())
+                .ForMember(dest => dest.Profile, opt => opt.Ignore())
+                .ForMember(dest => dest.ResetCode, opt => opt.Ignore())
+                .ForMember(dest => dest.ResetCodeExpiry, opt => opt.Ignore());
 
 
         }
