@@ -2,6 +2,7 @@
 using Mechanical_workshop.Models;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IRepository;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IService;
+using MechanicalWorkShopWebApi.Infrastructure.Security;
 using static MechanicalWorkShopWebApi.Domain.DTOs.UserDto;
 
 namespace MechanicalWorkShopWebApi.Services.Implementations
@@ -10,42 +11,43 @@ namespace MechanicalWorkShopWebApi.Services.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<UserResponseDto> Login(UserLoginDto loginDto)
         {
-            // 1. Buscar usuario en DB
             var user = await _userRepository.GetByUsername(loginDto.Username);
 
-            // 2. Validar si existe y si la contraseña coincide
-            // OJO: En prod, aquí usarías VerifyHash(loginDto.Password, user.Password)
-            if (user == null || user.Password != loginDto.Password)
+            if (user == null || !_passwordHasher.VerifyPasswordHash(loginDto.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return null; // Login fallido
+                return null;
             }
 
-            // 3. Si todo ok, mapear a DTO (sin password) y devolver
             return _mapper.Map<UserResponseDto>(user);
         }
 
         public async Task<UserResponseDto> Register(UserRegisterDto registerDto)
         {
-            // 1. Convertir DTO a Entidad
+            _passwordHasher.CreatePasswordHash(registerDto.Password, out var passwordHash, out var passwordSalt);
+
             var userEntity = _mapper.Map<User>(registerDto);
 
-            // Aquí podrías setear valores por defecto
+            userEntity.PasswordHash = passwordHash;
+            userEntity.PasswordSalt = passwordSalt;
+
+            // Asignaciones por defecto (si aplica)
             userEntity.Profile = "User";
 
-            // 2. Guardar en DB
             await _userRepository.Add(userEntity);
             await _userRepository.SaveChanges();
 
-            // 3. Devolver respuesta mapeada
+            // Devolver respuesta mapeada
             return _mapper.Map<UserResponseDto>(userEntity);
         }
     }

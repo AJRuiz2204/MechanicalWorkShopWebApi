@@ -12,7 +12,13 @@ namespace Mechanical_workshop.Services.Mappings
             CreateMap<User, UserResponseDto>();
 
             // De DTO de Registro a Entidad
-            CreateMap<UserRegisterDto, User>();
+            CreateMap<UserRegisterDto, User>()
+
+                // Ignoramos PasswordHash porque lo generamos con criptografía en el Service
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
+                .ForMember(dest => dest.PasswordSalt, opt => opt.Ignore());
+
+
         }
     }
 }

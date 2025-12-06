@@ -3,6 +3,7 @@ using MechanicalWorkShopWebApi.Data;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IRepository;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IService;
 using MechanicalWorkShopWebApi.Infrastructure.Repositories;
+using MechanicalWorkShopWebApi.Infrastructure.Security;
 using MechanicalWorkShopWebApi.Services.Implementations;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<WorkshopDbContext>(options =>
 // Conectamos las Interfaces con sus Implementaciones
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // 3. Configurar AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
