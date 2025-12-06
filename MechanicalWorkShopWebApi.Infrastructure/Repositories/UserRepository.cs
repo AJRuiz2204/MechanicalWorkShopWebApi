@@ -29,6 +29,28 @@ namespace MechanicalWorkShopWebApi.Infrastructure.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
+        public async Task Update(User user)
+        {
+            _context.Users.Update(user);
+            await Task.CompletedTask;
+        }
+
+        public async Task Delete(User user)
+        {
+            _context.Users.Remove(user);
+            await Task.CompletedTask;
+        }
+
         public async Task SaveChanges()
         {
             await _context.SaveChangesAsync();

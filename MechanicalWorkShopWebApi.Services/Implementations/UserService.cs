@@ -48,5 +48,127 @@ namespace MechanicalWorkShopWebApi.Services.Implementations
             // 3. Devolver respuesta mapeada
             return _mapper.Map<UserResponseDto>(userEntity);
         }
+
+        public async Task<UserResponseDto> GetUserById(int id)
+        {
+            var user = await _userRepository.GetById(id);
+            if (user == null)
+            {
+                return null;
+            }
+            return _mapper.Map<UserResponseDto>(user);
+        }
+
+        public async Task<IEnumerable<UserResponseDto>> GetAllUsers()
+        {
+            var users = await _userRepository.GetAll();
+            return _mapper.Map<IEnumerable<UserResponseDto>>(users);
+        }
+
+        public async Task<UserResponseDto> UpdateUser(int id, UserUpdateDto updateDto)
+        {
+            var user = await _userRepository.GetById(id);
+            if (user == null)
+            {
+                return null;
+            }
+
+            // Actualizar solo los campos proporcionados
+            user.Email = updateDto.Email;
+            user.Username = updateDto.Username;
+            user.Profile = updateDto.Profile;
+
+            await _userRepository.Update(user);
+            await _userRepository.SaveChanges();
+
+            return _mapper.Map<UserResponseDto>(user);
+        }
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            var user = await _userRepository.GetById(id);
+            if (user == null)
+            {
+                return false;
+            }
+
+            await _userRepository.Delete(user);
+            await _userRepository.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> ChangePassword(int id, ChangePasswordDto changePasswordDto)
+        {
+            var user = await _userRepository.GetById(id);
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Validar contraseña actual
+            // OJO: En prod, aquí usarías VerifyHash
+            if (user.Password != changePasswordDto.CurrentPassword)
+            {
+                return false;
+            }
+
+            // Actualizar contraseña
+            // OJO: En prod, aquí usarías HashPassword
+            user.Password = changePasswordDto.NewPassword;
+
+            await _userRepository.Update(user);
+            await _userRepository.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> RequestPasswordReset(PasswordResetRequestDto requestDto)
+        {
+            var user = await _userRepository.GetByEmail(requestDto.Email);
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Generar código de reset (en prod, sería más seguro)
+            user.ResetCode = Guid.NewGuid().ToString().Substring(0, 6).ToUpper();
+            user.ResetCodeExpiry = DateTime.UtcNow.AddHours(1);
+
+            await _userRepository.Update(user);
+            await _userRepository.SaveChanges();
+
+            // Aquí se enviaría un email con el código (no implementado)
+
+            return true;
+        }
+
+        public async Task<bool> ResetPassword(PasswordResetDto resetDto)
+        {
+            var user = await _userRepository.GetByEmail(resetDto.Email);
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Validar código y expiración
+            if (user.ResetCode != resetDto.ResetCode || 
+                user.ResetCodeExpiry == null || 
+                user.ResetCodeExpiry < DateTime.UtcNow)
+            {
+                return false;
+            }
+
+            // Actualizar contraseña
+            // OJO: En prod, aquí usarías HashPassword
+            user.Password = resetDto.NewPassword;
+            user.ResetCode = string.Empty;
+            user.ResetCodeExpiry = null;
+
+            await _userRepository.Update(user);
+            await _userRepository.SaveChanges();
+
+            return true;
+        }
     }
 }

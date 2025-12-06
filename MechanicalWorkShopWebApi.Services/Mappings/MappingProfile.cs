@@ -13,6 +13,9 @@ namespace Mechanical_workshop.Services.Mappings
 
             // De DTO de Registro a Entidad
             CreateMap<UserRegisterDto, User>();
+
+            // De DTO de Actualización a Entidad
+            CreateMap<UserUpdateDto, User>();
         }
     }
 }

@@ -25,5 +25,34 @@
             public string Username { get; set; }
             public string Password { get; set; }
         }
+
+        // Para actualizar información del usuario
+        public class UserUpdateDto
+        {
+            public string Email { get; set; }
+            public string Username { get; set; }
+            public string Profile { get; set; }
+        }
+
+        // Para cambiar contraseña
+        public class ChangePasswordDto
+        {
+            public string CurrentPassword { get; set; }
+            public string NewPassword { get; set; }
+        }
+
+        // Para solicitar reset de contraseña
+        public class PasswordResetRequestDto
+        {
+            public string Email { get; set; }
+        }
+
+        // Para resetear contraseña con código
+        public class PasswordResetDto
+        {
+            public string Email { get; set; }
+            public string ResetCode { get; set; }
+            public string NewPassword { get; set; }
+        }
     }
 }
