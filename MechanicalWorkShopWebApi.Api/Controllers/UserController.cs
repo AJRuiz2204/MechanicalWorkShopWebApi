@@ -1,4 +1,5 @@
-﻿using MechanicalWorkShopWebApi.Domain.Interfaces.IService;
+﻿using MechanicalWorkShopWebApi.Domain.Exceptions;
+using MechanicalWorkShopWebApi.Domain.Interfaces.IService;
 using Microsoft.AspNetCore.Mvc;
 using static MechanicalWorkShopWebApi.Domain.DTOs.UserDto;
 
@@ -29,8 +30,15 @@ namespace MechanicalWorkShopWebApi.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
-            var result = await _userService.Register(registerDto);
-            return Ok(result);
+            try
+            {
+                var result = await _userService.Register(registerDto);
+                return Ok(result);
+            }
+            catch(DuplicateUsernameException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
         }
     }
 }
