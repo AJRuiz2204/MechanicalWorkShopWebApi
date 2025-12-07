@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Mechanical_workshop.Models;
+using MechanicalWorkShopWebApi.Domain.Exceptions;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IRepository;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IService;
 using MechanicalWorkShopWebApi.Infrastructure.Security;
@@ -12,12 +13,14 @@ namespace MechanicalWorkShopWebApi.Services.Implementations
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly UserValidator _userValidator;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher)
+        public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, UserValidator userValidator) // Constructor
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
+            _userValidator = userValidator;
         }
 
         public async Task<UserResponseDto> Login(UserLoginDto loginDto)
@@ -34,6 +37,9 @@ namespace MechanicalWorkShopWebApi.Services.Implementations
 
         public async Task<UserResponseDto> Register(UserRegisterDto registerDto)
         {
+            await _userValidator.ValidateUsernameIsUniqueAsync(registerDto.Username);
+            await _userValidator.ValidateEmailIsUniqueAsync(registerDto.Email);
+
             _passwordHasher.CreatePasswordHash(registerDto.Password, out var passwordHash, out var passwordSalt);
 
             var userEntity = _mapper.Map<User>(registerDto);

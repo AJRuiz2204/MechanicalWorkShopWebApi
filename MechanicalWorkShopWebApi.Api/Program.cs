@@ -1,5 +1,6 @@
 ﻿using Mechanical_workshop.Services.Mappings;
 using MechanicalWorkShopWebApi.Data;
+using MechanicalWorkShopWebApi.Domain.Exceptions;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IRepository;
 using MechanicalWorkShopWebApi.Domain.Interfaces.IService;
 using MechanicalWorkShopWebApi.Infrastructure.Repositories;
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<WorkshopDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+builder.Services.AddScoped<UserValidator>();
 
 // 3. Configurar AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
